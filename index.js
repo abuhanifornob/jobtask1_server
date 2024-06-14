@@ -54,6 +54,11 @@ async function run() {
       res.status(201).json(result);
     });
 
+    app.get("/users", async (req, res) => {
+      const result = await userInfoCollection.find().toArray();
+      res.status(201).json(result);
+    });
+
     app.patch("/users/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
@@ -79,8 +84,14 @@ async function run() {
       res.status(201).json(result);
     });
 
-    // Get All Data
+    // Get Pending Task Data
     app.get("/task", async (req, res) => {
+      const taskData = taskInformationCollection.find({ status: "tod-do" });
+      const result = await taskData.toArray();
+      res.status(201).json(result);
+    });
+    // Get All Task Data
+    app.get("/task/all", async (req, res) => {
       const taskData = taskInformationCollection.find();
       const result = await taskData.toArray();
       res.status(201).json(result);
