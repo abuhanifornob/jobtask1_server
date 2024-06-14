@@ -59,19 +59,13 @@ async function run() {
       res.status(201).json(result);
     });
 
-    app.patch("/users/:id", async (req, res) => {
-      const id = req.params.id;
-      const filter = { _id: new ObjectId(id) };
-      const options = { upsert: true };
-      const result = await userInfoCollection.updateOne(
-        filter,
-        {
-          $set: {
-            data,
-          },
-        },
-        options
-      );
+    app.patch("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const filter = { email };
+      const data = req.body;
+      const result = await userInfoCollection.updateOne(filter, {
+        $set: data,
+      });
 
       res.status(201).json(result);
     });
